@@ -26,11 +26,11 @@ const App = () => {
               2m 36s
             </div>
           </div>
-          <div className="relative w-full min-h-[100px] backdrop-blur-xl bg-black/60">
-            <pre className="px-8 py-6 text-2xl font-roboto tracking-wide leading-8 text-neutral-400">
+          <div className="relative w-full min-h-[100px] text-sm sm:text-md md:text-lg lg:text-2xl backdrop-blur-xl bg-black/60">
+            <pre className="px-8 py-6 font-roboto tracking-wide leading-8 text-neutral-400">
               {words}
             </pre>
-            <pre className="absolute top-0 px-8 py-6 text-2xl font-roboto tracking-wide leading-8 text-white">
+            <pre className="absolute top-0 px-8 py-6 font-roboto tracking-wide leading-8 text-white">
               {typedCharacters.map((char, index) => (
                 <Character
                   key={`${char}_${index}`}
