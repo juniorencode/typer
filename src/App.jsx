@@ -1,16 +1,12 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useEngine } from './hooks/useEngine.hook';
 import { cn } from './utilities/styles.utilities';
 
 const App = () => {
   const code = `function isPalindrome(str) {\n\tconst cleanedStr = str.replace(/[^a-z0-9]/gi, '').toLowerCase();\n\treturn cleanedStr === cleanedStr.split('').reverse().join('');\n}
 `;
-  const [typed, setTyped] = useState('');
+  const { typed } = useEngine();
   const typedCharacters = typed.split('');
-
-  useEffect(() => {
-    setTyped('functioaa');
-  }, []);
 
   return (
     <div className="flex flex-col items-center max-w-screen-lg mx-auto">
