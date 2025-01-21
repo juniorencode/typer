@@ -21,7 +21,7 @@ export const Caret = ({ words, totalTyped }) => {
 
   return (
     <span ref={caretRef} className="caret-blink bg-teal-700">
-      {words[totalTyped]}
+      {words[totalTyped] === '\n' ? '↵' : words[totalTyped]}
     </span>
   );
 };

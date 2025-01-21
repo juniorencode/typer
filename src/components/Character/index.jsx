@@ -9,12 +9,12 @@ export const Character = ({ actual, expected }) => {
   return (
     <span
       className={cn({
-        'text-red-500': !isCorrect && !isWhiteSpace,
+        'text-red-500': !isCorrect && (!isWhiteSpace || isEnterKey),
         'text-white': isCorrect && !isWhiteSpace,
-        'bg-red-500/50': !isCorrect && (isWhiteSpace || isEnterKey)
+        'bg-red-500/50': !isCorrect && isWhiteSpace
       })}
     >
-      {expected === '\n' ? ' \n' : expected}
+      {expected === '\n' ? (!isCorrect ? '↵\n' : ' \n') : expected}
     </span>
   );
 };
