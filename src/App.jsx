@@ -3,8 +3,7 @@ import { useEngine } from './hooks/useEngine.hook';
 import { cn } from './utilities/styles.utilities';
 
 const App = () => {
-  const code = `function isPalindrome(str) {\n\tconst cleanedStr = str.replace(/[^a-z0-9]/gi, '').toLowerCase();\n\treturn cleanedStr === cleanedStr.split('').reverse().join('');\n}
-`;
+  const code = `const debounce = (func, delay) => {\n\tlet timeout;\n\treturn (...args) => {\n\t\tclearTimeout(timeout);\n\t\ttimeout = setTimeout(() => func(...args), delay);\n\t};\n};`;
   const { typed } = useEngine();
   const typedCharacters = typed.split('');
 
