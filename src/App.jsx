@@ -9,7 +9,7 @@ const App = () => {
   return (
     <div className="flex flex-col items-center max-w-screen-lg mx-auto">
       <div className="my-10">
-        <h1 className="text-6xl text-shadow font-black tracking-widest select-none text-white">
+        <h1 className="text-8xl text-shadow font-nexa tracking-widest select-none text-white">
           {'</typer>'}
         </h1>
       </div>
@@ -20,11 +20,11 @@ const App = () => {
             <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
             <div className="w-3 h-3 rounded-full bg-green-500"></div>
           </div>
-          <div className="relative px-8 py-6 w-full min-h-[300px] backdrop-blur-xl bg-black bg-opacity-60">
-            <pre className="absolute text-2xl tracking-wide leading-8 text-neutral-400">
+          <div className="relative w-full min-h-[100px] backdrop-blur-xl bg-black bg-opacity-60">
+            <pre className="px-8 py-6 text-2xl font-roboto tracking-wide leading-8 text-neutral-400">
               {words}
             </pre>
-            <pre className="absolute text-2xl tracking-wide leading-8 text-white">
+            <pre className="absolute top-0 px-8 py-6 text-2xl font-roboto tracking-wide leading-8 text-white">
               {typedCharacters.map((char, index) => (
                 <Character
                   key={`${char}_${index}`}

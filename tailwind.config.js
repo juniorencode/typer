@@ -2,7 +2,12 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {}
+    extend: {
+      fontFamily: {
+        roboto: ['RobotoMono', 'sans-serif'],
+        nexa: ['Nexa', 'sans-serif']
+      }
+    }
   },
   plugins: []
 };
