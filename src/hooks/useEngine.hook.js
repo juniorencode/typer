@@ -48,14 +48,17 @@ export const useEngine = () => {
       case 'Enter':
         setTyped(prev => prev.concat('\n'));
         totalTyped.current += 1;
-        while (words[totalTyped.current] === '\t') {
-          setTyped(prev => prev.concat('\t'));
-          totalTyped.current += 1;
-        }
         break;
       default:
         setTyped(prev => prev.concat(key));
         totalTyped.current += 1;
+    }
+
+    if (key !== 'Backspace') {
+      while (words[totalTyped.current] === '\t') {
+        setTyped(prev => prev.concat('\t'));
+        totalTyped.current += 1;
+      }
     }
   };
 
