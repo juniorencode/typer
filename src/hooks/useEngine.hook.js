@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
 const isKeyboardCodeAllowed = code => {
-  console.log(code);
   return (
     code.startsWith('Key') ||
     code.startsWith('Digit') ||

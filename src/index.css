@@ -5,11 +5,13 @@
 body {
   width: 100vw;
   min-height: 100vh;
-  background: rgb(15, 227, 111);
+  background: #00bf72;
   background: linear-gradient(
     45deg,
-    rgba(15, 227, 111, 1) 30%,
-    rgba(3, 140, 223, 1) 70%
+    #051937 0,
+    #004d7a 40%,
+    #008793 70%,
+    #00bf72 100%
   );
 }
 
