@@ -3,8 +3,7 @@ import { useEngine } from './hooks/useEngine.hook';
 import { cn } from './utilities/styles.utilities';
 
 const App = () => {
-  const code = `const debounce = (func, delay) => {\n\tlet timeout;\n\treturn (...args) => {\n\t\tclearTimeout(timeout);\n\t\ttimeout = setTimeout(() => func(...args), delay);\n\t};\n};`;
-  const { typed } = useEngine();
+  const { words, typed } = useEngine();
   const typedCharacters = typed.split('');
 
   return (
@@ -23,14 +22,14 @@ const App = () => {
           </div>
           <div className="relative px-8 py-6 w-full min-h-[300px] backdrop-blur-xl bg-black bg-opacity-60">
             <pre className="absolute text-2xl tracking-wide leading-8 text-neutral-400">
-              {code}
+              {words}
             </pre>
             <pre className="absolute text-2xl tracking-wide leading-8 text-white">
               {typedCharacters.map((char, index) => (
                 <Character
                   key={`${char}_${index}`}
                   actual={char}
-                  expected={code[index]}
+                  expected={words[index]}
                 />
               ))}
             </pre>

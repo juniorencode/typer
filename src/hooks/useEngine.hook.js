@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const isKeyboardCodeAllowed = code => {
   return (
@@ -19,13 +19,16 @@ const isKeyboardCodeAllowed = code => {
 };
 
 export const useEngine = () => {
+  const words = `const debounce = (func, delay) => {\n\tlet timeout;\n\treturn (...args) => {\n\t\tclearTimeout(timeout);\n\t\ttimeout = setTimeout(() => func(...args), delay);\n\t};\n};`;
   const [typed, setTyped] = useState('');
+  const totalTyped = useRef(0);
 
   useEffect(() => {
     window.addEventListener('keydown', keydownHandler);
     return () => {
       window.removeEventListener('keydown', keydownHandler);
     };
+    // eslint-disable-next-line
   }, []);
 
   const keydownHandler = ({ key, code }) => {
@@ -36,14 +39,21 @@ export const useEngine = () => {
     switch (key) {
       case 'Backspace':
         setTyped(prev => prev.slice(0, -1));
+        totalTyped.current -= 1;
         break;
       case 'Enter':
         setTyped(prev => prev.concat('\n'));
+        totalTyped.current += 1;
+        while (words[totalTyped.current] === '\t') {
+          setTyped(prev => prev.concat('\t'));
+          totalTyped.current += 1;
+        }
         break;
       default:
         setTyped(prev => prev.concat(key));
+        totalTyped.current += 1;
     }
   };
 
-  return { typed };
+  return { words, typed };
 };
