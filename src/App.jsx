@@ -1,12 +1,16 @@
-import { useEffect } from 'react';
-import { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { cn } from './utilities/styles.utilities';
 
 const App = () => {
-  const [code, setCode] = useState(`function isPalindrome(str) {
-  const cleanedStr = str.replace(/[^a-z0-9]/gi, '').toLowerCase();
-  return cleanedStr === cleanedStr.split('').reverse().join('');
-}
-`);
+  const code = `function isPalindrome(str) {\n\tconst cleanedStr = str.replace(/[^a-z0-9]/gi, '').toLowerCase();\n\treturn cleanedStr === cleanedStr.split('').reverse().join('');\n}
+`;
+  const [typed, setTyped] = useState('');
+  const typedCharacters = typed.split('');
+
+  useEffect(() => {
+    setTyped('functioaa');
+  }, []);
 
   return (
     <div className="flex flex-col items-center max-w-screen-lg mx-auto">
@@ -27,13 +31,41 @@ const App = () => {
               {code}
             </pre>
             <pre className="absolute text-2xl tracking-wide leading-8 text-white">
-              {code}
+              {typedCharacters.map((char, index) => (
+                <Character
+                  key={`${char}_${index}`}
+                  actual={char}
+                  expected={code[index]}
+                />
+              ))}
             </pre>
           </div>
         </div>
       </div>
     </div>
   );
+};
+
+const Character = ({ actual, expected }) => {
+  const isCorrect = actual === expected;
+  const isWhiteSpace = expected === ' ';
+
+  return (
+    <span
+      className={cn({
+        'text-red-500': !isCorrect && !isWhiteSpace,
+        'text-white': isCorrect && !isWhiteSpace,
+        'bg-red-500/50': !isCorrect && isWhiteSpace
+      })}
+    >
+      {expected}
+    </span>
+  );
+};
+
+Character.propTypes = {
+  actual: PropTypes.string.isRequired,
+  expected: PropTypes.string.isRequired
 };
 
 export default App;
