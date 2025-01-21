@@ -8,7 +8,7 @@ const App = () => {
   const typedCharacters = typed.split('');
 
   return (
-    <div className="flex flex-col items-center gap-4 mx-auto pt-4 px-2 max-w-screen-lg backdrop-blur-xl">
+    <div className="flex flex-col items-center gap-4 mx-auto px-2 py-4 max-w-screen-lg backdrop-blur-xl">
       <div className="py-10 w-full text-center rounded-xl border bg-black/60 border-white/10">
         <h1 className="text-6xl sm:text-8xl text-shadow font-nexa tracking-widest select-none text-white">
           {'</typer>'}
