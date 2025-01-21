@@ -40,6 +40,10 @@ export const useEngine = () => {
       case 'Backspace':
         setTyped(prev => prev.slice(0, -1));
         totalTyped.current -= 1;
+        while (words[totalTyped.current] === '\t') {
+          setTyped(prev => prev.slice(0, -1));
+          totalTyped.current -= 1;
+        }
         break;
       case 'Enter':
         setTyped(prev => prev.concat('\n'));
