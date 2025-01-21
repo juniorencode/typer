@@ -6,6 +6,9 @@ export default {
       fontFamily: {
         roboto: ['RobotoMono', 'sans-serif'],
         nexa: ['Nexa', 'sans-serif']
+      },
+      screens: {
+        xs: '480px'
       }
     }
   },
