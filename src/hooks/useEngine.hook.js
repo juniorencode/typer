@@ -24,17 +24,18 @@ export const useEngine = () => {
   const totalTyped = useRef(0);
 
   useEffect(() => {
-    window.addEventListener('keydown', keydownHandler);
+    window.addEventListener('keydown', handlerKeydown);
     return () => {
-      window.removeEventListener('keydown', keydownHandler);
+      window.removeEventListener('keydown', handlerKeydown);
     };
     // eslint-disable-next-line
   }, []);
 
-  const keydownHandler = ({ key, code }) => {
-    if (!isKeyboardCodeAllowed(code)) {
-      return;
-    }
+  const handlerKeydown = e => {
+    e.preventDefault();
+
+    const { key, code } = e;
+    if (!isKeyboardCodeAllowed(code)) return;
 
     switch (key) {
       case 'Backspace':

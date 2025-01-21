@@ -10,7 +10,7 @@ const App = () => {
     <div className="flex flex-col items-center max-w-screen-lg mx-auto">
       <div className="my-10">
         <h1 className="text-6xl text-shadow font-black tracking-widest select-none text-white">
-          TYPER
+          {'</typer>'}
         </h1>
       </div>
       <div className="px-2 py-10 w-full">
