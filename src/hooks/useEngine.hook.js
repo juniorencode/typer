@@ -59,5 +59,5 @@ export const useEngine = () => {
     }
   };
 
-  return { words, typed };
+  return { words, typed, totalTyped: totalTyped.current };
 };

@@ -1,15 +1,16 @@
 import PropTypes from 'prop-types';
 import { useEngine } from './hooks/useEngine.hook';
 import { cn } from './utilities/styles.utilities';
+import { Caret } from './components/Caret';
 
 const App = () => {
-  const { words, typed } = useEngine();
+  const { words, typed, totalTyped } = useEngine();
   const typedCharacters = typed.split('');
 
   return (
     <div className="flex flex-col items-center max-w-screen-lg mx-auto">
-      <div className="title my-10">
-        <h1 className="text-6xl font-black tracking-widest select-none text-white">
+      <div className="my-10">
+        <h1 className="text-6xl text-shadow font-black tracking-widest select-none text-white">
           TYPER
         </h1>
       </div>
@@ -32,6 +33,7 @@ const App = () => {
                   expected={words[index]}
                 />
               ))}
+              <Caret words={words} totalTyped={totalTyped} />
             </pre>
           </div>
         </div>

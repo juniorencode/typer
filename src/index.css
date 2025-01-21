@@ -15,6 +15,17 @@ body {
   );
 }
 
-.title {
+.text-shadow {
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+}
+
+.caret-blink {
+  animation: blink 1s step-start infinite;
+  opacity: 0;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 1;
+  }
 }
