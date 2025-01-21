@@ -19,7 +19,8 @@ const isKeyboardCodeAllowed = code => {
 };
 
 export const useEngine = () => {
-  const words = `const debounce = (func, delay) => {\n\tlet timeout;\n\treturn (...args) => {\n\t\tclearTimeout(timeout);\n\t\ttimeout = setTimeout(() => func(...args), delay);\n\t};\n};`;
+  // const words = `const debounce = (func, delay) => {\n\tlet timeout;\n\treturn (...args) => {\n\t\tclearTimeout(timeout);\n\t\ttimeout = setTimeout(() => func(...args), delay);\n\t};\n};`;
+  const words = `// -- Finish --\n\n// Press Tab to reset exercise`;
   const [typed, setTyped] = useState('');
   const totalTyped = useRef(0);
 
