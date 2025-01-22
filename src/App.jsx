@@ -4,7 +4,7 @@ import { Caret } from './components/Caret';
 import { Chart } from './components/Chart';
 
 const App = () => {
-  const { words, typed, totalTyped } = useEngine();
+  const { state, words, typed, totalTyped } = useEngine();
   const typedCharacters = typed.split('');
 
   return (
@@ -38,7 +38,9 @@ const App = () => {
                   expected={words[index]}
                 />
               ))}
-              <Caret words={words} totalTyped={totalTyped} />
+              {state === 'run' && (
+                <Caret words={words} totalTyped={totalTyped} />
+              )}
             </pre>
           </div>
         </div>

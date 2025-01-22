@@ -91,5 +91,5 @@ export const useEngine = () => {
     }
   };
 
-  return { words, typed, totalTyped: totalTyped.current };
+  return { state, words, typed, totalTyped: totalTyped.current };
 };
