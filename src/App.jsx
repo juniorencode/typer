@@ -10,8 +10,7 @@ import { Caret } from './components/Caret';
 import { Chart } from './components/Chart';
 
 const App = () => {
-  const { state, time, corrects, errors, words, typed, totalTyped, history } =
-    useEngine();
+  const { state, time, corrects, errors, words, typed, history } = useEngine();
   const typedCharacters = typed.split('');
 
   return (
@@ -47,7 +46,7 @@ const App = () => {
                   />
                 ))}
                 {state === 'run' && (
-                  <Caret words={words} totalTyped={totalTyped} />
+                  <Caret words={words} length={typed.length} />
                 )}
               </pre>
             )}
@@ -58,13 +57,13 @@ const App = () => {
         <div className="col-span-1 px-2 py-4 rounded-xl border backdrop-blur-xl bg-black/60 border-white/10">
           <div>words per minute</div>
           <div className="text-4xl font-bold text-white">
-            {calculateWPM(totalTyped, time)}
+            {calculateWPM(typed.length, time)}
           </div>
         </div>
         <div className="col-span-1 px-2 py-4 rounded-xl border backdrop-blur-xl bg-black/60 border-white/10">
           <div>characters per minute</div>
           <div className="text-4xl font-bold text-white">
-            {calculateCPM(totalTyped, time)}
+            {calculateCPM(typed.length, time)}
           </div>
         </div>
         <div className="col-span-1 px-2 py-4 rounded-xl border backdrop-blur-xl bg-black/60 border-white/10">

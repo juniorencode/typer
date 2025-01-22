@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useEffect, useRef } from 'react';
 
-export const Caret = ({ words, totalTyped }) => {
+export const Caret = ({ words, length }) => {
   const caretRef = useRef(null);
 
   useEffect(() => {
@@ -21,12 +21,12 @@ export const Caret = ({ words, totalTyped }) => {
 
   return (
     <span ref={caretRef} className="caret-blink bg-teal-700">
-      {words[totalTyped] === '\n' ? '↵' : words[totalTyped]}
+      {words[length] === '\n' ? '↵' : words[length]}
     </span>
   );
 };
 
 Caret.propTypes = {
   words: PropTypes.string.isRequired,
-  totalTyped: PropTypes.number.isRequired
+  length: PropTypes.number.isRequired
 };
