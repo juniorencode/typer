@@ -1,5 +1,5 @@
 import { useEngine } from './hooks/useEngine.hook';
-import { formatTime } from './utilities/time.utilities';
+import { calculateCPM, formatTime } from './utilities/utils.utilities';
 import { Character } from './components/Character';
 import { Caret } from './components/Caret';
 import { Chart } from './components/Chart';
@@ -31,29 +31,35 @@ const App = () => {
             <pre className="px-8 py-6 font-roboto tracking-wide leading-8 text-neutral-400">
               {words}
             </pre>
-            <pre className="absolute top-0 px-8 py-6 font-roboto tracking-wide leading-8 text-white">
-              {typedCharacters.map((char, index) => (
-                <Character
-                  key={`${char}_${index}`}
-                  actual={char}
-                  expected={words[index]}
-                />
-              ))}
-              {state === 'run' && (
-                <Caret words={words} totalTyped={totalTyped} />
-              )}
-            </pre>
+            {(state === 'start' || state === 'run') && (
+              <pre className="absolute top-0 px-8 py-6 font-roboto tracking-wide leading-8 text-white">
+                {typedCharacters.map((char, index) => (
+                  <Character
+                    key={`${char}_${index}`}
+                    actual={char}
+                    expected={words[index]}
+                  />
+                ))}
+                {state === 'run' && (
+                  <Caret words={words} totalTyped={totalTyped} />
+                )}
+              </pre>
+            )}
           </div>
         </div>
       </div>
       <div className="grid grid-cols-1 xs:grid-cols-3 lg:grid-cols-5 gap-4 w-full text-sm tracking-wider text-neutral-400">
         <div className="col-span-1 px-2 py-4 rounded-xl border backdrop-blur-xl bg-black/60 border-white/10">
           <div>words per minute</div>
-          <div className="text-4xl font-bold text-white">46</div>
+          <div className="text-4xl font-bold text-white">
+            {Math.round(calculateCPM(totalTyped, time) / 5)}
+          </div>
         </div>
         <div className="col-span-1 px-2 py-4 rounded-xl border backdrop-blur-xl bg-black/60 border-white/10">
           <div>characters per minute</div>
-          <div className="text-4xl font-bold text-white">230</div>
+          <div className="text-4xl font-bold text-white">
+            {calculateCPM(totalTyped, time)}
+          </div>
         </div>
         <div className="col-span-1 px-2 py-4 rounded-xl border backdrop-blur-xl bg-black/60 border-white/10">
           <div>accuracy</div>
@@ -61,7 +67,9 @@ const App = () => {
         </div>
         <div className="col-span-1 px-2 py-4 rounded-xl border backdrop-blur-xl bg-black/60 border-white/10">
           <div>time</div>
-          <div className="text-4xl font-bold text-white">2m 36s</div>
+          <div className="text-4xl font-bold text-white">
+            {formatTime(time)}
+          </div>
         </div>
         <div className="col-span-1 px-2 py-4 rounded-xl border backdrop-blur-xl bg-black/60 border-white/10">
           <div>mistkes</div>

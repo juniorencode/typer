@@ -40,12 +40,13 @@ export const useEngine = () => {
 
   const handlerKeydown = e => {
     e.preventDefault();
-
     const { key, code } = e;
 
     if (!isKeyboardCodeAllowed(code)) return;
     if (state === 'start') {
       setState('run');
+      setTyped('');
+      totalTyped.current = 0;
       interval.current = setInterval(() => {
         setTime(prev => prev + 1);
       }, 1000);
@@ -90,8 +91,6 @@ export const useEngine = () => {
       if (state === 'run' && totalTyped.current === words.length) {
         setState('finish');
         setWords('// -- Finish --\n\n// Press Tab to reset exercise');
-        setTyped('');
-        totalTyped.current = 0;
         clearInterval(interval.current);
       }
     }
