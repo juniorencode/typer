@@ -24,7 +24,6 @@ export const useEngine = () => {
   const [words, setWords] = useState(
     'const debounce = (func, delay) => {\n\tlet timeout;\n\treturn (...args) => {\n\t\tclearTimeout(timeout);\n\t\ttimeout = setTimeout(() => func(...args), delay);\n\t};\n};'
   );
-  // const [words, setWords] = useState('Lorem');
   const [state, setState] = useState('start');
   const [time, setTime] = useState(0);
   const [errors, setErrors] = useState(0);
@@ -82,11 +81,6 @@ export const useEngine = () => {
       switch (key) {
         case 'Backspace':
           if (totalTyped.current > 0) {
-            // const lastTypedChar = typed[totalTyped.current - 1];
-            // const correctChar = words[totalTyped.current - 1];
-            // if (lastTypedChar !== correctChar) {
-            //   setErrors(prev => Math.max(prev - 1, 0));
-            // }
             setTyped(prev => prev.slice(0, -1));
             totalTyped.current -= 1;
 
@@ -127,7 +121,7 @@ export const useEngine = () => {
 
       if (state === 'run' && totalTyped.current === words.length) {
         setState('finish');
-        setWords('// -- Finish --\n\n// Press Tab to reset exercise');
+        setWords('// -- Finish --\n\n// Press Tab to reset exercise\n\n');
         clearInterval(interval.current);
       }
     }
