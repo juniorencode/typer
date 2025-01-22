@@ -1,11 +1,17 @@
 import { useEngine } from './hooks/useEngine.hook';
-import { calculateCPM, formatTime } from './utilities/utils.utilities';
+import {
+  calculateCPM,
+  calculateWPM,
+  calculateAcc,
+  formatTime
+} from './utilities/utils.utilities';
 import { Character } from './components/Character';
 import { Caret } from './components/Caret';
 import { Chart } from './components/Chart';
 
 const App = () => {
-  const { state, time, words, typed, totalTyped } = useEngine();
+  const { state, time, corrects, errors, words, typed, totalTyped } =
+    useEngine();
   const typedCharacters = typed.split('');
 
   return (
@@ -23,8 +29,8 @@ const App = () => {
               <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
               <div className="w-3 h-3 rounded-full bg-green-500"></div>
             </div>
-            <div className="text-right text-2xl tracking-widest text-white">
-              {formatTime(time)}
+            <div className="text-right text-xl tracking-widest text-white">
+              ~javascript
             </div>
           </div>
           <div className="relative w-full min-h-[100px] text-sm sm:text-md md:text-lg lg:text-2xl backdrop-blur-xl bg-black/60">
@@ -52,7 +58,7 @@ const App = () => {
         <div className="col-span-1 px-2 py-4 rounded-xl border backdrop-blur-xl bg-black/60 border-white/10">
           <div>words per minute</div>
           <div className="text-4xl font-bold text-white">
-            {Math.round(calculateCPM(totalTyped, time) / 5)}
+            {calculateWPM(totalTyped, time)}
           </div>
         </div>
         <div className="col-span-1 px-2 py-4 rounded-xl border backdrop-blur-xl bg-black/60 border-white/10">
@@ -63,7 +69,9 @@ const App = () => {
         </div>
         <div className="col-span-1 px-2 py-4 rounded-xl border backdrop-blur-xl bg-black/60 border-white/10">
           <div>accuracy</div>
-          <div className="text-4xl font-bold text-white">98%</div>
+          <div className="text-4xl font-bold text-white">
+            {`${calculateAcc(corrects, errors)} %`}
+          </div>
         </div>
         <div className="col-span-1 px-2 py-4 rounded-xl border backdrop-blur-xl bg-black/60 border-white/10">
           <div>time</div>
@@ -73,7 +81,7 @@ const App = () => {
         </div>
         <div className="col-span-1 px-2 py-4 rounded-xl border backdrop-blur-xl bg-black/60 border-white/10">
           <div>mistkes</div>
-          <div className="text-4xl font-bold text-white">3</div>
+          <div className="text-4xl font-bold text-white">{errors}</div>
         </div>
       </div>
       <Chart />
