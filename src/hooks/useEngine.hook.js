@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { calculateWPM } from '../utilities/utils.utilities';
 
 const isKeyboardCodeAllowed = code => {
   return (
@@ -31,6 +32,7 @@ export const useEngine = () => {
   const [typed, setTyped] = useState('');
   const totalTyped = useRef(0);
   const interval = useRef(null);
+  const [history, setHistory] = useState([]);
 
   useEffect(() => {
     window.addEventListener('keydown', handlerKeydown);
@@ -48,6 +50,16 @@ export const useEngine = () => {
     if (state === 'start') {
       setState('run');
       interval.current = setInterval(() => {
+        setHistory(prev => {
+          const _time = (prev[prev.length - 1]?.time || 0) + 1;
+          return [
+            ...prev,
+            {
+              time: _time,
+              value: calculateWPM(totalTyped.current, _time)
+            }
+          ];
+        });
         setTime(prev => prev + 1);
       }, 1000);
     }
@@ -128,6 +140,7 @@ export const useEngine = () => {
     errors,
     words,
     typed,
-    totalTyped: totalTyped.current
+    totalTyped: totalTyped.current,
+    history
   };
 };

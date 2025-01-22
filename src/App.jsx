@@ -10,7 +10,7 @@ import { Caret } from './components/Caret';
 import { Chart } from './components/Chart';
 
 const App = () => {
-  const { state, time, corrects, errors, words, typed, totalTyped } =
+  const { state, time, corrects, errors, words, typed, totalTyped, history } =
     useEngine();
   const typedCharacters = typed.split('');
 
@@ -84,7 +84,7 @@ const App = () => {
           <div className="text-4xl font-bold text-white">{errors}</div>
         </div>
       </div>
-      <Chart />
+      <Chart data={history} />
     </div>
   );
 };
