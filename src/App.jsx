@@ -1,10 +1,11 @@
 import { useEngine } from './hooks/useEngine.hook';
+import { formatTime } from './utilities/time.utilities';
 import { Character } from './components/Character';
 import { Caret } from './components/Caret';
 import { Chart } from './components/Chart';
 
 const App = () => {
-  const { state, words, typed, totalTyped } = useEngine();
+  const { state, time, words, typed, totalTyped } = useEngine();
   const typedCharacters = typed.split('');
 
   return (
@@ -23,7 +24,7 @@ const App = () => {
               <div className="w-3 h-3 rounded-full bg-green-500"></div>
             </div>
             <div className="text-right text-2xl tracking-widest text-white">
-              2m 36s
+              {formatTime(time)}
             </div>
           </div>
           <div className="relative w-full min-h-[100px] text-sm sm:text-md md:text-lg lg:text-2xl backdrop-blur-xl bg-black/60">
