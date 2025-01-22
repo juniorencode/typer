@@ -2,8 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'RobotoMono';
+  src: url('./assets/fonts/RobotoMono.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Nexa';
+  src: url('./assets/fonts/Nexa.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+::-webkit-scrollbar-track {
+  background-color: #004d7a;
+}
+
 body {
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   background: #00bf72;
   background: linear-gradient(
@@ -13,6 +39,9 @@ body {
     #008793 70%,
     #00bf72 100%
   );
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
 }
 
 .text-shadow {
