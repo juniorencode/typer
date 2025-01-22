@@ -16,8 +16,8 @@ const App = () => {
   return (
     <div className="flex flex-col items-center gap-4 mx-auto px-2 py-4 max-w-screen-lg backdrop-blur-xl">
       <div className="py-10 w-full text-center rounded-xl border bg-black/60 border-white/10">
-        <h1 className="text-6xl sm:text-8xl text-shadow font-nexa tracking-widest select-none text-white">
-          {'</typer>'}
+        <h1 className="text-3xl xs:text-5xl sm:text-6xl lg:text-8xl text-shadow font-nexa tracking-widest select-none text-white">
+          {'</speed-typer>'}
         </h1>
       </div>
       <div className="w-full">
@@ -28,7 +28,7 @@ const App = () => {
               <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
               <div className="w-3 h-3 rounded-full bg-green-500"></div>
             </div>
-            <div className="text-right text-xl tracking-widest text-white">
+            <div className="text-right text-lg tracking-widest text-white">
               ~javascript
             </div>
           </div>

@@ -28,13 +28,12 @@ export const useEngine = () => {
   const [time, setTime] = useState(0);
   const [errors, setErrors] = useState(0);
   const [corrects, setCorrects] = useState(0);
-  const [typed, setTyped] = useState('');
-  const typedLengthRef = useRef(0);
-  const interval = useRef(null);
   const [history, setHistory] = useState([]);
+  const [typed, setTyped] = useState('');
+  const typedLength = useRef(0);
+  const interval = useRef(null);
 
   useEffect(() => {
-    typedLengthRef.current = typed.length;
     window.addEventListener('keydown', handlerKeydown);
     return () => {
       window.removeEventListener('keydown', handlerKeydown);
@@ -56,7 +55,7 @@ export const useEngine = () => {
             ...prev,
             {
               time: _time,
-              value: calculateWPM(typedLengthRef.current, _time)
+              value: calculateWPM(typedLength.current, _time)
             }
           ];
         });
@@ -69,6 +68,7 @@ export const useEngine = () => {
         setCorrects(0);
         setErrors(0);
         setTyped('');
+        typedLength.current = 0;
         setWords(
           'const debounce = (func, delay) => {\n\tlet timeout;\n\treturn (...args) => {\n\t\tclearTimeout(timeout);\n\t\ttimeout = setTimeout(() => func(...args), delay);\n\t};\n};'
         );
@@ -80,40 +80,43 @@ export const useEngine = () => {
 
       switch (key) {
         case 'Backspace':
-          if (typed.length > 0) {
+          if (typedLength.current > 0) {
             setTyped(prev => prev.slice(0, -1));
+            typedLength.current = typedLength.current - 1;
 
-            while (words[typed.length + 1] === '\t' && typed.length + 1 > 0) {
+            while (
+              words[typedLength.current] === '\t' &&
+              typedLength.current > 0
+            ) {
               setTyped(prev => prev.slice(0, -1));
+              typedLength.current = typedLength.current - 1;
             }
           }
           break;
         case 'Enter':
-          if (words[typed.length] !== '\n') setErrors(prev => prev + 1);
+          if (words[typedLength.current] !== '\n') setErrors(prev => prev + 1);
           setTyped(prev => prev.concat('\n'));
+          typedLength.current = typedLength.current + 1;
           break;
         default:
-          if (words[typed.length] !== key) setErrors(prev => prev + 1);
+          if (words[typedLength.current] !== key) setErrors(prev => prev + 1);
           setTyped(prev => prev.concat(key));
+          typedLength.current = typedLength.current + 1;
+          break;
       }
 
-      let aux = 1;
       if (key !== 'Backspace') {
-        while (words[typed.length + aux] === '\t') {
+        while (words[typedLength.current] === '\t') {
           setTyped(prev => prev.concat('\t'));
-          aux++;
+          typedLength.current = typedLength.current + 1;
         }
       }
 
-      let _corrects = 0;
-      for (let i = 0; i < typed.length; i++) {
-        if (words[i] === typed[i]) {
-          _corrects++;
-        }
+      if (words[typedLength.current - 1] === key) {
+        setCorrects(prev => prev + 1);
       }
-      setCorrects(_corrects);
 
-      if (state === 'run' && typed.length + 1 === words.length) {
+      if (state === 'run' && typedLength.current === words.length) {
         setState('finish');
         setWords('// -- Finish --\n\n// Press Tab to reset exercise\n\n');
         clearInterval(interval.current);
