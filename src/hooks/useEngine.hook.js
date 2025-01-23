@@ -1,50 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { calculateWPM } from '../utilities/utils.utilities';
-
-const isKeyboardCodeAllowed = (key, code) => {
-  const allowedKeys = ['Backspace', 'Enter', 'Tab', 'Space'];
-  const allowedChars = [
-    '`',
-    '~',
-    '!',
-    '@',
-    '#',
-    '$',
-    '%',
-    '^',
-    '&',
-    '*',
-    '(',
-    ')',
-    '-',
-    '_',
-    '+',
-    '=',
-    '[',
-    '{',
-    ']',
-    '}',
-    '\\',
-    '|',
-    ';',
-    ':',
-    '"',
-    "'",
-    ',',
-    '<',
-    '.',
-    '>',
-    '/',
-    '?'
-  ];
-
-  return (
-    code.startsWith('Key') ||
-    code.startsWith('Digit') ||
-    allowedKeys.includes(code) ||
-    allowedChars.includes(key)
-  );
-};
+import {
+  isKeyboardCodeAllowed,
+  calculateWPM
+} from '../utilities/utils.utilities';
 
 export const useEngine = () => {
   const [words, setWords] = useState(
@@ -65,7 +23,7 @@ export const useEngine = () => {
       window.removeEventListener('keydown', handlerKeydown);
     };
     // eslint-disable-next-line
-  }, [state, typed]);
+  }, [state]);
 
   const handlerKeydown = e => {
     const { key, code } = e;

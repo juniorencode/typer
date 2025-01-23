@@ -11,7 +11,6 @@ import { Chart } from './components/Chart';
 
 const App = () => {
   const { state, time, corrects, errors, words, typed, history } = useEngine();
-  const typedCharacters = typed.split('');
 
   return (
     <div className="flex flex-col items-center gap-4 mx-auto px-2 py-4 max-w-screen-lg backdrop-blur-xl">
@@ -38,7 +37,7 @@ const App = () => {
             </pre>
             {(state === 'start' || state === 'run') && (
               <pre className="absolute top-0 px-8 py-6 font-roboto tracking-wide leading-8 text-white">
-                {typedCharacters.map((char, index) => (
+                {typed.split('').map((char, index) => (
                   <Character
                     key={`${char}_${index}`}
                     actual={char}
