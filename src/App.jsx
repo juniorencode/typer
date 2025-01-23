@@ -28,7 +28,7 @@ const App = () => {
               <div className="w-3 h-3 rounded-full bg-green-500"></div>
             </div>
             <div className="text-right text-lg tracking-widest text-white">
-              ~javascript
+              lodash/lodash
             </div>
           </div>
           <div className="relative w-full min-h-[100px] text-sm sm:text-md md:text-lg lg:text-2xl backdrop-blur-xl bg-black/60">
@@ -68,7 +68,7 @@ const App = () => {
         <div className="col-span-1 px-2 py-4 rounded-xl border backdrop-blur-xl bg-black/60 border-white/10">
           <div>accuracy</div>
           <div className="text-4xl font-bold text-white">
-            {`${calculateAcc(corrects, errors)} %`}
+            {`${calculateAcc(corrects, errors)}`}
           </div>
         </div>
         <div className="col-span-1 px-2 py-4 rounded-xl border backdrop-blur-xl bg-black/60 border-white/10">

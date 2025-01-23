@@ -64,7 +64,9 @@ export const calculateWPM = (totalCharacters, seconds) => {
 };
 
 export const calculateAcc = (corrects, errors) => {
-  return corrects || errors
-    ? Math.round((corrects / (corrects + errors)) * 100)
-    : 0;
+  return (
+    (corrects || errors
+      ? Math.round((corrects / (corrects + errors)) * 100)
+      : 0) + '%'
+  );
 };

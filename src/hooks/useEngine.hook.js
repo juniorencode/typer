@@ -3,11 +3,10 @@ import {
   isKeyboardCodeAllowed,
   calculateWPM
 } from '../utilities/utils.utilities';
+import { data } from '../data';
 
 export const useEngine = () => {
-  const [words, setWords] = useState(
-    'const debounce = (func, delay) => {\n\tlet timeout;\n\treturn (...args) => {\n\t\tclearTimeout(timeout);\n\t\ttimeout = setTimeout(() => func(...args), delay);\n\t};\n};'
-  );
+  const [words, setWords] = useState(data[7]);
   const [state, setState] = useState('start');
   const [time, setTime] = useState(0);
   const [errors, setErrors] = useState(0);
@@ -29,6 +28,7 @@ export const useEngine = () => {
     const { key, code } = e;
 
     if (!isKeyboardCodeAllowed(key, code)) return;
+    if (['Tab', 'Space'].includes(code)) e.preventDefault();
     if (state === 'start') {
       setState('run');
       interval.current = setInterval(() => {
