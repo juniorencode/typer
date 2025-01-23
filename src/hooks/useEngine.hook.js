@@ -1,22 +1,48 @@
 import { useEffect, useRef, useState } from 'react';
 import { calculateWPM } from '../utilities/utils.utilities';
 
-const isKeyboardCodeAllowed = code => {
+const isKeyboardCodeAllowed = (key, code) => {
+  const allowedKeys = ['Backspace', 'Enter', 'Tab', 'Space'];
+  const allowedChars = [
+    '`',
+    '~',
+    '!',
+    '@',
+    '#',
+    '$',
+    '%',
+    '^',
+    '&',
+    '*',
+    '(',
+    ')',
+    '-',
+    '_',
+    '+',
+    '=',
+    '[',
+    '{',
+    ']',
+    '}',
+    '\\',
+    '|',
+    ';',
+    ':',
+    '"',
+    "'",
+    ',',
+    '<',
+    '.',
+    '>',
+    '/',
+    '?'
+  ];
+
   return (
     code.startsWith('Key') ||
     code.startsWith('Digit') ||
-    code.startsWith('Bracket') ||
-    code === 'Backspace' ||
-    code === 'Semicolon' ||
-    code === 'Period' ||
-    code === 'Quote' ||
-    code === 'Comma' ||
-    code === 'Slash' ||
-    code === 'Equal' ||
-    code === 'Minus' ||
-    code === 'Space' ||
-    code === 'Enter' ||
-    code === 'Tab'
+    allowedKeys.includes(code) ||
+    allowedChars.includes(key)
   );
 };
 
@@ -42,10 +68,9 @@ export const useEngine = () => {
   }, [state, typed]);
 
   const handlerKeydown = e => {
-    e.preventDefault();
     const { key, code } = e;
 
-    if (!isKeyboardCodeAllowed(code)) return;
+    if (!isKeyboardCodeAllowed(key, code)) return;
     if (state === 'start') {
       setState('run');
       interval.current = setInterval(() => {
@@ -67,6 +92,7 @@ export const useEngine = () => {
         setState('start');
         setCorrects(0);
         setErrors(0);
+        setHistory([]);
         setTyped('');
         typedLength.current = 0;
         setWords(

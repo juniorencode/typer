@@ -17,7 +17,7 @@ const App = () => {
     <div className="flex flex-col items-center gap-4 mx-auto px-2 py-4 max-w-screen-lg backdrop-blur-xl">
       <div className="py-10 w-full text-center rounded-xl border bg-black/60 border-white/10">
         <h1 className="text-3xl xs:text-5xl sm:text-6xl lg:text-8xl text-shadow font-nexa tracking-widest select-none text-white">
-          {'</speed-typer>'}
+          {'</typer>'}
         </h1>
       </div>
       <div className="w-full">
