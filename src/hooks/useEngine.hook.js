@@ -26,6 +26,7 @@ export const useEngine = () => {
     typedLength.current = 0;
     setWords(getRandomFunction(data));
     setTime(0);
+    clearInterval(interval.current);
   }, []);
 
   const updateHistory = useCallback(() => {
@@ -45,6 +46,12 @@ export const useEngine = () => {
       setTime(prev => prev + 1);
     }, 1000);
   }, [updateHistory]);
+
+  const finish = useCallback(() => {
+    setState('finish');
+    setWords('// -- Finish --\n\n// Press Tab to reset exercise\n\n');
+    clearInterval(interval.current);
+  }, []);
 
   const handleTyping = useCallback(
     key => {
@@ -82,12 +89,9 @@ export const useEngine = () => {
         setCorrects(prev => prev + 1);
       }
 
-      if (typedLength.current === words.length) {
-        setState('finish');
-        setWords('// -- Finish --\n\n// Press Tab to reset exercise\n\n');
-        clearInterval(interval.current);
-      }
+      if (typedLength.current === words.length) finish();
     },
+    // eslint-disable-next-line
     [words]
   );
 
@@ -98,8 +102,8 @@ export const useEngine = () => {
       if (!isKeyboardCodeAllowed(key, code)) return;
       if (['Tab', 'Space'].includes(code)) e.preventDefault();
       if (state === 'start') update();
-      if (key === 'Tab' && state === 'finish') reset();
-      else if (key !== 'Tab' && state !== 'finish') handleTyping(key);
+      if (state === 'finish' && key === 'Tab') return reset();
+      if (state !== 'finish' && key !== 'Tab') handleTyping(key);
     },
     [state, handleTyping, reset, update]
   );
@@ -110,6 +114,11 @@ export const useEngine = () => {
       window.removeEventListener('keydown', handlerKeydown);
     };
   }, [handlerKeydown]);
+
+  useEffect(() => {
+    if (state === 'run' && time >= 600) finish();
+    // eslint-disable-next-line
+  }, [state, time]);
 
   return {
     state,
