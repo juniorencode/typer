@@ -5,8 +5,13 @@ import {
 } from '../utilities/utils.utilities';
 import { data } from '../data';
 
+const getRandomFunction = () => {
+  const randomIndex = Math.floor(Math.random() * data.length);
+  return data[randomIndex];
+};
+
 export const useEngine = () => {
-  const [words, setWords] = useState(data[7]);
+  const [words, setWords] = useState(getRandomFunction());
   const [state, setState] = useState('start');
   const [time, setTime] = useState(0);
   const [errors, setErrors] = useState(0);
@@ -53,9 +58,7 @@ export const useEngine = () => {
         setHistory([]);
         setTyped('');
         typedLength.current = 0;
-        setWords(
-          'const debounce = (func, delay) => {\n\tlet timeout;\n\treturn (...args) => {\n\t\tclearTimeout(timeout);\n\t\ttimeout = setTimeout(() => func(...args), delay);\n\t};\n};'
-        );
+        setWords(getRandomFunction());
         setTime(0);
         return;
       }
