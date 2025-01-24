@@ -14,8 +14,8 @@ const App = () => {
 
   return (
     <div className="flex flex-col items-center gap-4 mx-auto px-2 py-4 max-w-screen-lg backdrop-blur-xl">
-      <div className="py-10 w-full text-center rounded-xl border bg-black/60 border-white/10">
-        <h1 className="text-3xl xs:text-5xl sm:text-6xl lg:text-8xl text-shadow font-nexa tracking-widest select-none text-white">
+      <div className="py-4 sm:py-6 lg:py-8 w-full text-center">
+        <h1 className="text-6xl xs:text-7xl sm:text-8xl md:text-9xl text-shadow font-nexa tracking-widest select-none text-white">
           {'</typer>'}
         </h1>
       </div>
