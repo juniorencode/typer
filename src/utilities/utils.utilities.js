@@ -34,6 +34,11 @@ export const ALLOWED_CHARS = [
   '?'
 ];
 
+export const getRandomFunction = data => {
+  const randomIndex = Math.floor(Math.random() * data.length);
+  return data[randomIndex];
+};
+
 export const isKeyboardCodeAllowed = (key, code) => {
   return (
     code.startsWith('Key') ||

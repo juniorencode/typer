@@ -1,17 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   isKeyboardCodeAllowed,
-  calculateWPM
+  calculateWPM,
+  getRandomFunction
 } from '../utilities/utils.utilities';
 import { data } from '../data';
 
-const getRandomFunction = () => {
-  const randomIndex = Math.floor(Math.random() * data.length);
-  return data[randomIndex];
-};
-
 export const useEngine = () => {
-  const [words, setWords] = useState(getRandomFunction());
+  const [words, setWords] = useState(getRandomFunction(data));
   const [state, setState] = useState('start');
   const [time, setTime] = useState(0);
   const [errors, setErrors] = useState(0);
@@ -21,81 +17,64 @@ export const useEngine = () => {
   const typedLength = useRef(0);
   const interval = useRef(null);
 
-  useEffect(() => {
-    window.addEventListener('keydown', handlerKeydown);
-    return () => {
-      window.removeEventListener('keydown', handlerKeydown);
-    };
-    // eslint-disable-next-line
-  }, [state]);
+  const reset = useCallback(() => {
+    setState('start');
+    setCorrects(0);
+    setErrors(0);
+    setHistory([]);
+    setTyped('');
+    typedLength.current = 0;
+    setWords(getRandomFunction(data));
+    setTime(0);
+  }, []);
 
-  const handlerKeydown = e => {
-    const { key, code } = e;
+  const updateHistory = useCallback(() => {
+    setHistory(prev => {
+      const _time = (prev[prev.length - 1]?.time || 0) + 1;
+      return [
+        ...prev,
+        { time: _time, value: calculateWPM(typedLength.current, _time) }
+      ];
+    });
+  }, []);
 
-    if (!isKeyboardCodeAllowed(key, code)) return;
-    if (['Tab', 'Space'].includes(code)) e.preventDefault();
-    if (state === 'start') {
-      setState('run');
-      interval.current = setInterval(() => {
-        setHistory(prev => {
-          const _time = (prev[prev.length - 1]?.time || 0) + 1;
-          return [
-            ...prev,
-            {
-              time: _time,
-              value: calculateWPM(typedLength.current, _time)
-            }
-          ];
-        });
-        setTime(prev => prev + 1);
-      }, 1000);
-    }
-    if (key === 'Tab') {
-      if (state === 'finish') {
-        setState('start');
-        setCorrects(0);
-        setErrors(0);
-        setHistory([]);
-        setTyped('');
-        typedLength.current = 0;
-        setWords(getRandomFunction());
-        setTime(0);
-        return;
-      }
-    } else {
-      if (state === 'finish') return;
+  const update = useCallback(() => {
+    setState('run');
+    interval.current = setInterval(() => {
+      updateHistory();
+      setTime(prev => prev + 1);
+    }, 1000);
+  }, [updateHistory]);
 
-      switch (key) {
-        case 'Backspace':
-          if (typedLength.current > 0) {
+  const handleTyping = useCallback(
+    key => {
+      if (key === 'Backspace') {
+        if (typedLength.current > 0) {
+          setTyped(prev => prev.slice(0, -1));
+          typedLength.current -= 1;
+
+          while (
+            words[typedLength.current] === '\t' &&
+            typedLength.current > 0
+          ) {
             setTyped(prev => prev.slice(0, -1));
-            typedLength.current = typedLength.current - 1;
-
-            while (
-              words[typedLength.current] === '\t' &&
-              typedLength.current > 0
-            ) {
-              setTyped(prev => prev.slice(0, -1));
-              typedLength.current = typedLength.current - 1;
-            }
+            typedLength.current -= 1;
           }
-          break;
-        case 'Enter':
-          if (words[typedLength.current] !== '\n') setErrors(prev => prev + 1);
-          setTyped(prev => prev.concat('\n'));
-          typedLength.current = typedLength.current + 1;
-          break;
-        default:
-          if (words[typedLength.current] !== key) setErrors(prev => prev + 1);
-          setTyped(prev => prev.concat(key));
-          typedLength.current = typedLength.current + 1;
-          break;
+        }
+      } else if (key === 'Enter') {
+        if (words[typedLength.current] !== '\n') setErrors(prev => prev + 1);
+        setTyped(prev => prev.concat('\n'));
+        typedLength.current += 1;
+      } else {
+        if (words[typedLength.current] !== key) setErrors(prev => prev + 1);
+        setTyped(prev => prev.concat(key));
+        typedLength.current += 1;
       }
 
       if (key !== 'Backspace') {
         while (words[typedLength.current] === '\t') {
           setTyped(prev => prev.concat('\t'));
-          typedLength.current = typedLength.current + 1;
+          typedLength.current += 1;
         }
       }
 
@@ -103,13 +82,34 @@ export const useEngine = () => {
         setCorrects(prev => prev + 1);
       }
 
-      if (state === 'run' && typedLength.current === words.length) {
+      if (typedLength.current === words.length) {
         setState('finish');
         setWords('// -- Finish --\n\n// Press Tab to reset exercise\n\n');
         clearInterval(interval.current);
       }
-    }
-  };
+    },
+    [words]
+  );
+
+  const handlerKeydown = useCallback(
+    e => {
+      const { key, code } = e;
+
+      if (!isKeyboardCodeAllowed(key, code)) return;
+      if (['Tab', 'Space'].includes(code)) e.preventDefault();
+      if (state === 'start') update();
+      if (key === 'Tab' && state === 'finish') reset();
+      else if (key !== 'Tab' && state !== 'finish') handleTyping(key);
+    },
+    [state, handleTyping, reset, update]
+  );
+
+  useEffect(() => {
+    window.addEventListener('keydown', handlerKeydown);
+    return () => {
+      window.removeEventListener('keydown', handlerKeydown);
+    };
+  }, [handlerKeydown]);
 
   return {
     state,
