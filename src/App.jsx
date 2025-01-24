@@ -52,7 +52,7 @@ const App = () => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-1 xs:grid-cols-3 lg:grid-cols-5 gap-4 w-full text-sm tracking-wider text-neutral-400">
+      <div className="grid grid-cols-1 xs:grid-cols-3 md:grid-cols-5 gap-4 w-full text-sm tracking-wider text-neutral-400">
         <div className="col-span-1 px-2 py-4 rounded-xl border backdrop-blur-xl bg-black/60 border-white/10">
           <div>words per minute</div>
           <div className="text-4xl font-bold text-white">
